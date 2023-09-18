@@ -1,0 +1,9 @@
+{% if all_list %}
+<ul>
+  {% for org in all_list %}
+  <li>{{ org }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No orgs are available.</p>
+{% endif %}
