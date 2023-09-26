@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.views import View
 from django.core import serializers
 from django.contrib.auth.models import User
+from rest_framework import viewsets
+from rest_framework import permissions
 from .serializer import (
     OrganizationSerializer,
     OfficeSerializer,
@@ -37,3 +39,13 @@ class DetailView(View):
         )
         serializer = OrganizationSerializer(organization)
         return JsonResponse(serializer.data, safe=False)
+
+
+class OrganizationViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+
+    queryset = Organization.objects.prefetch_related("offices__employees").all()
+    serializer_class = OrganizationSerializer
+    permission_classes = [permissions.IsAuthenticated]
